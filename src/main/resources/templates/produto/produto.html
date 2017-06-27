@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+
+<head>
+<title>Pesquisa de Produtos</title>
+</head>
+
+<section layout:fragment="conteudo">
+	<div layout:include="MensagemGeral"></div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="clearfix">
+				<h1 class="panel-title aw-titulo-panel">Pesquisa de Produtos</h1>
+				<a class="btn btn-link aw-link-panel" th:href="@{/produto/novo}">Novo
+					Produto</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="col-md-1">#</th>
+							<th class="col-md-2">Nome</th>
+							<th class="col-md-2">Data Fabricação</th>
+							<th class="col-md-2">Valor</th>
+							<th class="col-md-2">Categoria</th>
+							<th class="col-md-1">Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="produto : ${produtos}">
+							<td th:text="${produto.id}"></td>
+							<td th:text="${produto.nome}"></td>
+							<td th:text="${{produto.dataFabricacao}}"></td>
+							<td th:text="|R$ ${{produto.valor}}|"></td>
+							<td th:text="${produto.categoria.descricao}"></td>
+							<td class="text-center">
+		   						<a class="btn btn-link btn-xs" th:href="@{/produto/{id}(id=${produto.id})}" 
+		   								title="Editar" rel="tooltip" data-placement="top">
+		   							<span class="glyphicon glyphicon-pencil"></span>
+		   						</a>
+		   						<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+		   								th:attr="data-url='produto',data-id=${produto.id}, data-descricao=${produto.nome}"
+		   								title="Excluir" rel="tooltip" data-placement="top">
+		   							<span class="glyphicon glyphicon-remove"></span>
+		   						</a>
+		   					</td>
+						</tr>
+						<tr>
+							<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum
+								produto foi encontrado</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div layout:include="DialogoConfirmacaoExclusao"></div>
+	</div>
+</section>
+</html>
