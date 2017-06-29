@@ -15,6 +15,7 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
+	
 	public List<Produto> listar() {
 		return produtoRepository.findAll();
 	}
@@ -34,6 +35,14 @@ public class ProdutoService {
 			throw new EntidadeNaoEncontradaException("Não foi encontrado nenhum produto com este identificador");
 		}
 		return produto;
+	}
+
+	public List<Produto> buscarPorNome(String nome) {
+		List<Produto> produtos = produtoRepository.findByNomeContainingIgnoreCase(nome);
+		if(produtos == null || produtos.isEmpty()){
+			throw new EntidadeNaoEncontradaException("Não foi encontrado nenhum produto com nome parecido");
+		}
+		return produtos;
 	}
 	
 	

@@ -31,6 +31,7 @@ public class ProdutoController {
 	private CategoriaService categoriaService;
 
 	@RequestMapping
+	//@GetMapping
 	public ModelAndView iniciarCategoria() {
 		List<Produto> categorias = produtoService.listar();
 
